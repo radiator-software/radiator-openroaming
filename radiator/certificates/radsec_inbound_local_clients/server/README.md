@@ -1,0 +1,18 @@
+
+# CertificateChainFile.pem
+
+This is a place holder for the certificate chain used by the
+RadSec server receiving local RadSec connections. The server
+certificate and the chain do not need to be OpenRoaming
+certificates and can be private CA signed certificates as
+well.
+
+# PrivateKeyFile.pem
+
+This is a place holder for the private key used by the
+RadSec server receiving local RadSec connections. The server
+certificate and the chain do not need to be OpenRoaming
+certificates and can be private CA signed certificates as
+well.
+
+
