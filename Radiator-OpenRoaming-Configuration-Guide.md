@@ -76,6 +76,10 @@ To manage all these separate Radiator systemd instances all at once, radiator-in
 
 ## Installation on Ubuntu server
 
+### Install Radiator repository
+
+Radiator repository installation instructions are available for Radiator Software Support customers at https://downloads.radiatorsoftware.com/ .
+
 ### Install Radiator and supporting packages:
 
 ```
@@ -93,11 +97,11 @@ sudo systemctl disable radiator
 
 Download or git clone the Radiator OpenRoaming Configuration Guide configurations. The radiator directory contains the /etc/radiator contents.
 
-## Install the certificates
+### Install the certificates
 
 The certificates need to be installed under /etc/radiator/certificates/ hierarchy for each of the certificate using instances.  There is an example directory structure and README files to help with the certificate installations.
 
-## Ensure proper ownership and permissions on files and directories
+### Ensure proper ownership and permissions on files and directories
 
 ```
 sudo chown -R root:radiator /etc/radiator
