@@ -74,3 +74,44 @@ As with inbound OpenRoaming instance, this instance also requires OpenRoaming CA
 
 To manage all these separate Radiator systemd instances all at once, radiator-instances systemd service can be used.  This service is part of the Radiator AAA server software package and intended to do mass control of the all enabled systemd Radiator instances.  By starting, stopping or restarting this systemd service, all Radiator instances are started, stopped or restarted without having to manage them separately.  You can still manage instances one by one, but in some cases, a commmon start, stop or restart is more useful.
 
+## Installation on Ubuntu server
+
+### Install Radiator and supporting packages:
+
+```
+sudo apt-get install radiator radiator-radius-utilxs libcache-fastmmap-perl libnet-dns-perl
+```
+
+### Ensure that example template configuration is disabled and Radiator stopped: 
+
+```
+sudo systemctl stop radiator
+sudo systemctl disable radiator
+```
+
+### Download and install Radiator OpenRoaming Configuration Guide configurations
+
+Download or git clone the Radiator OpenRoaming Configuration Guide configurations. The radiator directory contains the /etc/radiator contents.
+
+## Install the certificates
+
+The certificates need to be installed under /etc/radiator/certificates/ hierarchy for each of the certificate using instances.  There is an example directory structure and README files to help with the certificate installations.
+
+## Ensure proper ownership and permissions on files and directories
+
+```
+sudo chown -R root:radiator /etc/radiator
+sudo chmod -R o= /etc/radiator
+```
+
+### Enable Radiator OpenRoaming instances:
+
+```
+sudo systemctl enable radiator@radius_proxy_auth radiator@radius_proxy_acct radiator@radsec_inbound_local_clients radiator@radsec_inbound_openroaming radiator@radsec_outbound_openroaming radiator-instances
+```
+
+### Start all enabled Radiator OpenRoaming instances:
+
+```
+sudo systemctl restart radiator-instances
+```
