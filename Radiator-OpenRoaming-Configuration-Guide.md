@@ -16,7 +16,7 @@ Issue and bug reports, comments and contributions for the configurations and the
 
 Radiator Configuration Guide include configurations, which include among other things the following:
 
-* Both inbound (IDp) and outbound (SP/ANP) OpenRoaming RadSec (RADIUS over TLS) configurations
+* Both inbound (IdP) and outbound (SP/ANP) OpenRoaming RadSec (RADIUS over TLS) configurations
 * Local inbound RadSec (RADIUS over TLS) connectivity configurations (for local network devices, customer RADIUS/RadSec servers)
 * Separate RADIUS roaming/proxying instance, separate RADIUS authentication and accounting instances (recommended deployment practice)
 * DNS peer discovery (with only Radiator configuration needed)
@@ -36,7 +36,29 @@ The Radiator systemd instances and their configurations are listed in the table 
 | radiator@radsec_inbound_local_clients | /etc/radiator/radiator-radsec_inbound_local_clients.conf | RadSec instance for local RadSec clients |
 | radiator@radsec_inbound_openroaming | /etc/radiator/radiator-radsec_inbound_openroaming.conf | RadSec instance for inbound OpenRoaming requests (IdP) |
 | radiator@radsec_outbound_openroaming | /etc/radiator/radiator-radsec_outbound_openroaming.conf | RadSec instance for outbound OpenRoaming requests (SP/ANP) |
-| radiator-instances | (/usr/lib/systemd/system/radiator-instances.service) (no need to edit) | An management service for managing all Radiator instances at once |
+| radiator-instances | (/usr/lib/systemd/system/radiator-instances.service) (no need to edit) | Management service for all Radiator instances |
 
 For more information about systemd instances and about managing them, check Radiator Cookbook blog post /Grouping and controlling multiple Radiator instances with systemd/ at: https://blog.radiatorsoftware.com/2019/06/grouping-and-controlling-multiple.html
+
+### RADIUS accounting proxy instance (radiator@radius_proxy_acct)
+
+The RADIUS accounting proxy instance is intended to receive, log and proxy RADIUS accounting.  It is recommended to be a separate instances so that accounting requests do not affect the performance of the authentication even if the backend storing accounting might cause delays.  Having RADIUS accounting on a separate instance also makes it possible to scale the accounting processing capability simply by adjusting FarmSize parameter in the configuration.  The FarmSize setting controls how many parallel child processes the Radiator instance process spawns.  The exact number of processes depends on the amount of accounting requests to be processed simultaneously, but a general guideline is that FarmSize would be at least the amount of (virtual) CPUs available on the (virtual) host.
+
+### RADIUS authentication proxy instance (radiator@radius_proxy_auth)
+
+The RADIUS authentication proxy instance is intended to receive, log and proxy RADIUS authentication.  As with the accounting instance, this is recommended practice to ensure efficient processing of the authentication requests.  This instance configuration also demonstrates how RADIUS proxying can also be scaled with FarmSize, even when proxying EAP requests.  Using HASHBALANCE for proxying RADIUS requests ensures that the requests belonging to same EAP context end up to the same proxy route or authenticating server in a normal situation -- no upstream server has failed in the middle of EAP authentication.
+
+The RADIUS authentication proxy instance can also be used for implementing local and global RADIUS roaming logic and determining which requests to proxy to RADIUS using roaming partners and separate roaming federations such as OpenRoaming and eduroam.
+
+### RadSec instance for local RadSec clients
+
+In addition to OpenRoaming connections, RadSec can be also used internally in the organisation to secure traffic from network devices to RADIUS/RadSec servers or from customers running their own RADIUS servers.  If for example an operator is a member of Wireless Broadband Alliance and entitled for WBAID, the operator can provide OpenRoaming as a service to its customers without the need of those customers to join to the Wireless Broadband Alliance directly as members.  The customers can this way connect their RADIUS infrastructure via this RadSec instance to the operator's AAA infrastructure and onwards to the OpenRoaming and other authentication federations.  As this instance is a separate instance with separatae RadSec port, this instance can also use client and server certificates from any PKI such as a private one or operator's own one.  Using other PKI for local connections reduces costs as certificates from well-known CAs are not required for RadSec connections.
+
+### RadSec instance for inbound OpenRoaming requests (IdP) (radiator@radsec_inbound_openroaming)
+
+
+
+### RadSec instance for outbound OpenRoaming requests (SP/ANP) (radiator@radsec_outbound_openroaming)
+
+### Management service for all Radiator instances (radiator-instances)
 
