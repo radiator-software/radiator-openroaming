@@ -10,5 +10,18 @@ This is a configuration guide for Radiator AAA (Authentication, Authorisation, A
 
 ## Support
 
-Issue and bug reports, comments and contributions for the configurations and the guide are welcome and supported by best-effort support from Radiator Software.  Adaptation, customisation and further development of these configurations is supported by Radiator Software's commercial support and expert services.
+Issue and bug reports, comments and contributions for the configurations and the guide are welcome and supported by best-effort support from Radiator Software.  Adaptation, customisation and further development of these configurations is supported by the Radiator Software's commercial support and expert services.
+
+## Supported features
+
+Radiator Configuration Guide include configurations, which include among other things the following:
+
+* Both inbound (IDp) and outbound (SP/ANP) OpenRoaming RadSec (RADIUS over TLS) configurations
+* Local inbound RadSec (RADIUS over TLS) connectivity configurations (for local network devices, customer RADIUS/RadSec servers)
+* Separate RADIUS roaming/proxying instance, separate RADIUS authentication and accounting instances (recommended deployment practice)
+* DNS peer discovery (with only Radiator configuration needed)
+* 3gppnetwork.org realm translation to pub.3gppnetwork.org for OpenRoaming Settlement-Free SIM authentication (with only Radiator configuration needed)
+* Wireless Broadband Alliance (WBA) vendor specific RADIUS attributes dictionary
+
+## Architecture
 
