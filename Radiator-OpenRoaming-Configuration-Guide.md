@@ -36,7 +36,7 @@ The Radiator systemd instances and their configurations are listed in the table 
 | radiator@radsec_inbound_local_clients | /etc/radiator/radiator-radsec_inbound_local_clients.conf | RadSec instance for local RadSec clients |
 | radiator@radsec_inbound_openroaming | /etc/radiator/radiator-radsec_inbound_openroaming.conf | RadSec instance for inbound OpenRoaming requests (IdP) |
 | radiator@radsec_outbound_openroaming | /etc/radiator/radiator-radsec_outbound_openroaming.conf | RadSec instance for outbound OpenRoaming requests (SP/ANP) |
-| radiator-instances | /usr/lib/systemd/system/radiator-instances.service | An management service for managing all Radiator instances at once |
+| radiator-instances | (/usr/lib/systemd/system/radiator-instances.service) (no need to edit) | An management service for managing all Radiator instances at once |
 
 For more information about systemd instances and about managing them, check Radiator Cookbook blog post /Grouping and controlling multiple Radiator instances with systemd/ at: https://blog.radiatorsoftware.com/2019/06/grouping-and-controlling-multiple.html
 
