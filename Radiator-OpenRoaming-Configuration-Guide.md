@@ -25,3 +25,18 @@ Radiator Configuration Guide include configurations, which include among other t
 
 ## Architecture
 
+The Radiator OpenRoaming Configuration Guide includes five Radiator instance configurations.  An instance is a separate Radiator process configuration with its own specific functionality.  Having multiple separate instances clarifies the configuration, enhances performance and makes scaling easier in the future.  The instances also demonstrate the current Radiator best practices for configuration.
+
+The Radiator systemd instances and their configurations are listed in the table below.
+
+| Radiator instance | Configuration file | Description |
+| ================= | ================== | =========== |
+| radiator@radius_proxy_acct | /etc/radiator/radiator-radius_proxy_acct.conf | RADIUS accounting proxy instance |
+| radiator@radius_proxy_auth | /etc/radiator/radiator-radius_proxy_auth.conf | RADIUS authentication proxy instance |
+| radiator@radsec_inbound_local_clients | /etc/radiator/radiator-radsec_inbound_local_clients.conf | RadSec instance for local RadSec clients |
+| radiator@radsec_inbound_openroaming | /etc/radiator/radiator-radsec_inbound_openroaming.conf | RadSec instance for inbound OpenRoaming requests (IdP) |
+| radiator@radsec_outbound_openroaming | /etc/radiator/radiator-radsec_outbound_openroaming.conf | RadSec instance for outbound OpenRoaming requests (SP/ANP) |
+| radiator-instances | /usr/lib/systemd/system/radiator-instances.service | An management service for managing all Radiator instances at once |
+
+For more information about systemd instances and about managing them, check Radiator Cookbook blog post /Grouping and controlling multiple Radiator instances with systemd/ at: https://blog.radiatorsoftware.com/2019/06/grouping-and-controlling-multiple.html
+
