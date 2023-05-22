@@ -30,7 +30,7 @@ The Radiator OpenRoaming Configuration Guide includes five Radiator instance con
 The Radiator systemd instances and their configurations are listed in the table below.
 
 | Radiator instance | Configuration file | Description |
-| ================= | ================== | =========== |
+| ----------------- | ------------------ | ----------- |
 | radiator@radius_proxy_acct | /etc/radiator/radiator-radius_proxy_acct.conf | RADIUS accounting proxy instance |
 | radiator@radius_proxy_auth | /etc/radiator/radiator-radius_proxy_auth.conf | RADIUS authentication proxy instance |
 | radiator@radsec_inbound_local_clients | /etc/radiator/radiator-radsec_inbound_local_clients.conf | RadSec instance for local RadSec clients |
