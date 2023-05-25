@@ -66,13 +66,44 @@ The instance configuration proxies the received requests to the RADIUS authentic
 
 ### RadSec instance for outbound OpenRoaming requests (SP/ANP) (radiator@radsec_outbound_openroaming)
 
-To implement Service Provider (SP) or Access Network Provider (ANP) functionality, only this and the two RADIUS proxy instances are needed.  This outbound OpenRoaming instance is used to do the DNS discovery (with 3gppnetwork.org realm translation) and dynamic OpenRoaming RadSec connections needed to provide access to the OpenRoaming IdPs.  This same instance can also be used to bypass DNS discovery and Settlement Free OpenRoaming for roaming partner realms, where there are for example separate commercial roaming agreements.  
+To implentement Service Provider (SP) or Access Network Provider (ANP) functionality, only this and the two RADIUS proxy instances are needed.  This outbound OpenRoaming instance is used to do the DNS discovery (with 3gppnetwork.org realm translation) and dynamic OpenRoaming RadSec connections needed to provide access to the OpenRoaming IdPs.  This same instance can also be used to bypass DNS discovery and Settlement Free OpenRoaming for roaming partner realms, where there are for example separate commercial roaming agreements.  
 
 As with inbound OpenRoaming instance, this instance also requires OpenRoaming CA certificates as well as OpenRoaming client certificate to be separately installed under /etc/radiator/certificates/radsec_inbound_openroaming/ directory hierarchy.
 
 ### Management service for all Radiator instances (radiator-instances)
 
 To manage all these separate Radiator systemd instances all at once, radiator-instances systemd service can be used.  This service is part of the Radiator AAA server software package and intended to do mass control of the all enabled systemd Radiator instances.  By starting, stopping or restarting this systemd service, all Radiator instances are started, stopped or restarted without having to manage them separately.  You can still manage instances one by one, but in some cases, a commmon start, stop or restart is more useful.
+
+## Certificate preparation
+
+### Client and Client-Server Certificates
+
+The RadSec client and server certificates in OpenRoaming should be installed with the certificate chain to ensure interoperability.  This means that instead of the single client or server certificate, a certificate chain containing the client or client-server certificate and intermediate CAs should be composed and configured to be used.  It is easiest to do this with certificates in PEM format by combining the proper certificate chain from separate certificate files.
+
+A proper certificate chain and order is for example:
+1. Client or client-server certificate
+2. Intermediate CA certificate, which issued the 1. certificate
+3. Intermediate CA certificate, which issued the 2. certificate
+
+Root CA certificate is not part of the certificate chain, but the certificate chain should contain all intermediate CA certificates up to the Root CA certificate.
+
+If you for example have a server certificate issued by WBA Issuing CA you could combine the certificate chain file from the following certificates:
+
+| Certificate file | Subject | Issuer |
+| ---------------- | ------- | ------ |
+| (CertificateFile.pem) | (depends on your organisation) | C = US, ST = California, L = San Mateo, O = WBA, OU = WBA Issuing ICA, CN = openroaming.org, dnQualifier = WBA WRIX ECC Intermediate CA-4 |
+| WBA_Issuing_CA.pem | C = US, ST = California, L = San Mateo, O = WBA, OU = WBA Issuing ICA, CN = openroaming.org, dnQualifier = WBA WRIX ECC Intermediate CA-4 | C = SG, ST = Singapore, L = Singapore, O = Wireless Broadband Alliance, OU = WBA, CN = openroaming.org, emailAddress = enb-devops@cisco.com, dnQualifier = WBA WRIX ECC Policy Intermediate CA-01 |
+| WBA_Policy_CA.pem | C = SG, ST = Singapore, L = Singapore, O = Wireless Broadband Alliance, OU = WBA, CN = openroaming.org, emailAddress = enb-devops@cisco.com, dnQualifier = WBA WRIX ECC Policy Intermediate CA-01 | Issuer: C = US, ST = California, L = San Jose, O = "Cisco Systems, Inc.", OU = Openroaming, CN = openroaming.org, emailAddress = enb-devops@cisco.com |
+
+The WBA_Policy_CA.pem I-CA certificate is issued by OpenRoaming Root CA, which is now omitted from the certificate chain.
+
+The certificate chain file can now be composed for example with the following command:
+
+```cat CertificateFile.pem WBA_Issuing_CA.pem WBA_Policy_CA.pem >> CertificateChainFile.pem```
+
+### Root CA and Intermediate CA certificates
+
+The recommendation is to install Root CA and Intermediate CA (I-CA) certificate in the ```/etc/radiator/certificates``` directory and then use for example symbolic links to add them to the ```/etc/radiator/certificates/*/ca``` directories when needed.  For inbound an outbound RadSec connections the Radiator instance CA directory should have the OpenRoaming Root CA and optionally also the OpenRoaming Intermediate CA certificates provided by the OpenRoaming client or client-server certificate issuer.  The optionally installed intermediate CA certificates ensure interoperability also with OpenRoaming clients or servers, which may have been configured just to provide the client-server or server certificate without the intermediate CA certificate chain.  When adding OpenRoaming CA or I-CA certificates to ```/etc/radiator/certificate/*/ca``` directories, remember to run ```c_rehash -v .``` command while in the directory to create the hashes needed for CA directories to work.
 
 ## Installation on Ubuntu server
 
@@ -98,9 +129,16 @@ sudo systemctl disable radiator
 Download or git clone the Radiator OpenRoaming Configuration Guide configurations. The radiator sub-directory contains the /etc/radiator contents and sub-directory structure.
 
 git clone example:
+
 ```git clone https://github.com/radiator-software/radiator-openroaming.git```
 
-### Install the certificates
+copy the radiator directory contents to /etc/radiator example:
+
+```cp -pr radiator-openroaming/radiator/* /etc/radiator```
+
+### Prepare and install the certificates
+
+Prepare the certificates according to chapter Certificate preparation.
 
 The certificates need to be installed under /etc/radiator/certificates/ hierarchy for each of the certificate using instances.  There is an example directory structure and README files to help with the certificate installations.
 
