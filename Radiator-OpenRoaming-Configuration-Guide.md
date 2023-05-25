@@ -95,7 +95,10 @@ sudo systemctl disable radiator
 
 ### Download and install Radiator OpenRoaming Configuration Guide configurations
 
-Download or git clone the Radiator OpenRoaming Configuration Guide configurations. The radiator directory contains the /etc/radiator contents.
+Download or git clone the Radiator OpenRoaming Configuration Guide configurations. The radiator sub-directory contains the /etc/radiator contents and sub-directory structure.
+
+git clone example:
+'''git clone https://github.com/radiator-software/radiator-openroaming.git'''
 
 ### Install the certificates
 
