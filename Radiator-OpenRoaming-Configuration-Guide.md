@@ -1,6 +1,6 @@
 # Radiator OpenRoaming Configuration Guide
 
-Date: 2023-05-22
+Date: 2023-05-25
 
 Most recent version is always available here: https://github.com/radiator-software/radiator-openroaming/
 
