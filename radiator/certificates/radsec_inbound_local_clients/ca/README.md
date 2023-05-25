@@ -6,5 +6,6 @@ can be issued and signed for example a local certificate authority.
 
 After adding certificate, run 'openssl rehash -v .' in this directory.
 
-On some systems the similar comamand may be 'cacertdir_rehash .'.
+On some systems the similar command may be 'cacertdir_rehash .' or
+'c_rehash .'.
 

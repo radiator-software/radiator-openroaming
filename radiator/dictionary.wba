@@ -5,7 +5,7 @@
 # https://github.com/wireless-broadband-alliance/RADIUS-VSA
 #
 # This are included in the Radiator testing releases and
-# will be included in the standard dictionry in Radiator
+# will be included in the standard dictionary in Radiator
 # v4.28 onwards.
 #
 VENDORATTR	14122	WBA-Offered-Service		12	string

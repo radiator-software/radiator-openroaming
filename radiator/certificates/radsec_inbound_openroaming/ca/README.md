@@ -11,6 +11,6 @@ server.
 
 After adding certificate, run 'openssl rehash -v .' in this directory.
 
-On some systems the similar command may be 'cacertdir_rehash .' run
-in this directory as well.
+On some systems the similar command may be 'cacertdir_rehash .' 
+or 'c_rehash -v .'. 
 
