@@ -54,25 +54,37 @@ If these configurations are used to test or provide OpenRoaming Identity Provide
 
 The RADIUS authentication proxy instance can also be used for implementing local and global RADIUS roaming logic and determining which requests to proxy to RADIUS using roaming partners and separate roaming federations such as OpenRoaming and eduroam.
 
-### RadSec instance for local RadSec clients
+### RadSec instance for local RadSec clients (radiator@radsec_inbound_local_clients)
 
 In addition to OpenRoaming connections, RadSec can be also used internally in the organisation to secure traffic from network devices to RADIUS/RadSec servers or from customers running their own RADIUS servers.  If for example an operator is a member of Wireless Broadband Alliance and entitled for WBAID, the operator can provide OpenRoaming as a service to its customers without the need of those customers to join to the Wireless Broadband Alliance directly as members.  The customers can this way connect their RADIUS infrastructure via this RadSec instance to the operator's AAA infrastructure and onwards to the OpenRoaming and other authentication federations.  As this instance is a separate instance with separatae RadSec port, this instance can also use client and server certificates from any PKI such as a private one or operator's own one.  Using this separate instance and a private PKI for local RadSec connections reduces costs as certificates from well-known CAs are not required for RadSec connections.
 
 ### RadSec instance for inbound OpenRoaming requests (IdP) (radiator@radsec_inbound_openroaming)
 
-This Radiator instance is for inbound OpenRoaming requests like the ones sent to an OpenRoaming Identity Provider (IdP). The instance is configured to bind to the standard RadSec port (TCP 2083), which must be opened in the firewalls to connections originating from any IP addresses.  The OpenRoaming CA certificates are used to verify the certificates offered by the RadSec clients connecting to this instance.  These OpenRoaming CA certificates as well as the OpenRoaming client-server certificate from the Wireless Broadband Alliances need to be separately installed under /etc/radiator/certificates/radsec_inbound_openroaming/ directory hierarchy.  
-
+This Radiator instance is for inbound OpenRoaming requests like the ones sent to an OpenRoaming Identity Provider (IdP). The instance is configured to bind to the standard RadSec port (TCP 2083), which must be opened in the firewalls to connections originating from any IP addresses.  The OpenRoaming CA certificates are used to verify the certificates offered by the RadSec clients connecting to this instance.  These OpenRoaming CA certificates as well as the OpenRoaming client-server certificate from the Wireless Broadband Alliances need to be separately installed under ```/etc/radiator/certificates/radsec_inbound_openroaming/``` directory hierarchy.  
 The instance configuration proxies the received requests to the RADIUS authentication and accounting proxy instances, which need to be configured to proxy requests to the suitable authenticating RADIUS servers or instances.
 
 ### RadSec instance for outbound OpenRoaming requests (SP/ANP) (radiator@radsec_outbound_openroaming)
 
 To implentement Service Provider (SP) or Access Network Provider (ANP) functionality, only this and the two RADIUS proxy instances are needed.  This outbound OpenRoaming instance is used to do the DNS discovery (with 3gppnetwork.org realm translation) and dynamic OpenRoaming RadSec connections needed to provide access to the OpenRoaming IdPs.  This same instance can also be used to bypass DNS discovery and Settlement Free OpenRoaming for roaming partner realms, where there are for example separate commercial roaming agreements.  
 
-As with inbound OpenRoaming instance, this instance also requires OpenRoaming CA certificates as well as OpenRoaming client certificate to be separately installed under /etc/radiator/certificates/radsec_inbound_openroaming/ directory hierarchy.
+As with inbound OpenRoaming instance, this instance also requires OpenRoaming CA certificates as well as OpenRoaming client certificate to be separately installed under ```/etc/radiator/certificates/radsec_outbound_openroaming/``` directory hierarchy.
 
 ### Management service for all Radiator instances (radiator-instances)
 
 To manage all these separate Radiator systemd instances all at once, radiator-instances systemd service can be used.  This service is part of the Radiator AAA server software package and intended to do mass control of the all enabled systemd Radiator instances.  By starting, stopping or restarting this systemd service, all Radiator instances are started, stopped or restarted without having to manage them separately.  You can still manage instances one by one, but in some cases, a commmon start, stop or restart is more useful.
+
+Example usage:
+
+```
+# using of management service
+sudo systemctl start radiator-instances
+sudo systemctl stop radiator-instances
+sudo systemctl restart radiator-instances
+# managing single instance
+sudo systemctl start radiator@radsec_outbound_openroaming
+sudo systemctl stop radiator@radsec_outbound_openroaming
+sudo systemctl restart radiator@radsec_outbound_openroaming
+```
 
 ## Certificate preparation
 
