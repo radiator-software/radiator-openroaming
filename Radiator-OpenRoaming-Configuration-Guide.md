@@ -159,6 +159,7 @@ The certificates need to be installed under /etc/radiator/certificates/ hierarch
 ```
 sudo chown -R root:radiator /etc/radiator
 sudo chmod -R o= /etc/radiator
+sudo chmod -R g+r /etc/radiator
 ```
 
 ### Enable Radiator OpenRoaming instances:
