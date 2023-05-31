@@ -13,4 +13,4 @@ VENDORATTR	14122	WBA-Financial-Clearing-Provider	13	string
 VENDORATTR	14122	WBA-Data-Clearing-Provider	14	string
 VENDORATTR	14122	WBA-Linear-Volume-Rate		15	binary
 VENDORATTR	14122	WBA-Identity-Provider		16	string
-
+VENDORATTR  14122 WBA-Custom-SLA    17  binary
