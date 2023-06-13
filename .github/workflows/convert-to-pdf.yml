@@ -28,5 +28,6 @@ jobs:
           build_html: false
       - uses: actions/upload-artifact@v1
         with:
-          name: Radiator-OpenRoaming-Configuration-Guide.pdf
+          name: Radiator-OpenRoaming-Configuration-Guide
           path: pdfs
+          retention-days: 90
