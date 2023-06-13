@@ -60,14 +60,14 @@ In addition to OpenRoaming connections, RadSec can be also used internally in th
 
 ### RadSec instance for inbound OpenRoaming requests (IdP) (radiator@radsec_inbound_openroaming)
 
-This Radiator instance is for inbound OpenRoaming requests like the ones sent to an OpenRoaming Identity Provider (IdP). The instance is configured to bind to the standard RadSec port (TCP 2083), which must be opened in the firewalls to connections originating from any IP addresses.  The OpenRoaming CA certificates are used to verify the certificates offered by the RadSec clients connecting to this instance.  These OpenRoaming CA certificates as well as the OpenRoaming client-server certificate from the Wireless Broadband Alliances need to be separately installed under ```/etc/radiator/certificates/radsec_inbound_openroaming/``` directory hierarchy.  
+This Radiator instance is for inbound OpenRoaming requests like the ones sent to an OpenRoaming Identity Provider (IdP). The instance is configured to bind to the standard RadSec port (TCP 2083), which must be opened in the firewalls to connections originating from any IP addresses.  The OpenRoaming CA certificates are used to verify the certificates offered by the RadSec clients connecting to this instance.  These OpenRoaming CA certificates as well as the OpenRoaming client-server certificate from the Wireless Broadband Alliances need to be separately installed under `/etc/radiator/certificates/radsec_inbound_openroaming/` directory hierarchy.  
 The instance configuration proxies the received requests to the RADIUS authentication and accounting proxy instances, which need to be configured to proxy requests to the suitable authenticating RADIUS servers or instances.
 
 ### RadSec instance for outbound OpenRoaming requests (SP/ANP) (radiator@radsec_outbound_openroaming)
 
 To implentement Service Provider (SP) or Access Network Provider (ANP) functionality, only this and the two RADIUS proxy instances are needed.  This outbound OpenRoaming instance is used to do the DNS discovery (with 3gppnetwork.org realm translation) and dynamic OpenRoaming RadSec connections needed to provide access to the OpenRoaming IdPs.  This same instance can also be used to bypass DNS discovery and Settlement Free OpenRoaming for roaming partner realms, where there are for example separate commercial roaming agreements.  
 
-As with inbound OpenRoaming instance, this instance also requires OpenRoaming CA certificates as well as OpenRoaming client certificate to be separately installed under ```/etc/radiator/certificates/radsec_outbound_openroaming/``` directory hierarchy.
+As with inbound OpenRoaming instance, this instance also requires OpenRoaming CA certificates as well as OpenRoaming client certificate to be separately installed under `/etc/radiator/certificates/radsec_outbound_openroaming/` directory hierarchy.
 
 ### Management service for all Radiator instances (radiator-instances)
 
@@ -115,7 +115,7 @@ The certificate chain file can now be composed for example with the following co
 
 ### Root CA and Intermediate CA certificates
 
-The recommendation is to install Root CA and Intermediate CA (I-CA) certificate in the ```/etc/radiator/certificates``` directory and then use for example symbolic links to add them to the ```/etc/radiator/certificates/*/ca``` directories when needed.  For inbound an outbound RadSec connections the Radiator instance CA directory should have the OpenRoaming Root CA and optionally also the OpenRoaming Intermediate CA certificates provided by the OpenRoaming client or client-server certificate issuer.  The optionally installed intermediate CA certificates ensure interoperability also with OpenRoaming clients or servers, which may have been configured just to provide the client-server or server certificate without the intermediate CA certificate chain.  When adding OpenRoaming CA or I-CA certificates to ```/etc/radiator/certificate/*/ca``` directories, remember to run ```c_rehash -v .``` command while in the directory to create the hashes needed for CA directories to work.
+The recommendation is to install Root CA and Intermediate CA (I-CA) certificate in the `/etc/radiator/certificates` directory and then use for example symbolic links to add them to the `/etc/radiator/certificates/*/ca` directories when needed.  For inbound an outbound RadSec connections the Radiator instance CA directory should have the OpenRoaming Root CA and optionally also the OpenRoaming Intermediate CA certificates provided by the OpenRoaming client or client-server certificate issuer.  The optionally installed intermediate CA certificates ensure interoperability also with OpenRoaming clients or servers, which may have been configured just to provide the client-server or server certificate without the intermediate CA certificate chain.  When adding OpenRoaming CA or I-CA certificates to `/etc/radiator/certificate/*/ca` directories, remember to run `c_rehash -v .` command while in the directory to create the hashes needed for CA directories to work.
 
 ## Installation on Ubuntu server
 
@@ -142,11 +142,15 @@ Download or git clone the Radiator OpenRoaming Configuration Guide configuration
 
 git clone example:
 
-```git clone https://github.com/radiator-software/radiator-openroaming.git```
+```
+git clone https://github.com/radiator-software/radiator-openroaming.git
+```
 
 copy the radiator directory contents to /etc/radiator example:
 
-```cp -pr radiator-openroaming/radiator/* /etc/radiator```
+```
+cp -pr radiator-openroaming/radiator/* /etc/radiator
+```
 
 ### Prepare and install the certificates
 
