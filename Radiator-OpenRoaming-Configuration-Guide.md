@@ -177,4 +177,3 @@ sudo systemctl enable radiator@radius_proxy_auth radiator@radius_proxy_acct radi
 ```
 sudo systemctl restart radiator-instances
 ```
-
