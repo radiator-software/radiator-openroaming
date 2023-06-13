@@ -1,6 +1,6 @@
 # .github/workflows/convert-to-pdf.yml
 
-name: Docs to PDF
+name: Markdown document to PDF
 # This workflow is triggered on pushes to the repository.
 on:
   push:
@@ -17,9 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: baileyjm02/markdown-to-pdf@v1
+      - uses: baileyjm02/markdown-to-pdf@v1.2.0
         with:
-          input_dir: .
+          input_path: Radiator-OpenRoaming-Configuration-Guide.md
           output_dir: pdfs
           #images_dir: docs/images
           # for example <img src="./images/file-name.png">
@@ -28,5 +28,5 @@ jobs:
           build_html: false
       - uses: actions/upload-artifact@v1
         with:
-          name: pdf
+          name: Radiator-OpenRoaming-Configuration-Guide.pdf
           path: pdfs
